@@ -81,3 +81,42 @@ BICICLETA 1 ───── N PEDALADA
 ## Observação
 
 A estrutura poderá ser ajustada durante o desenvolvimento caso novos requisitos sejam identificados.
+
+## DER — Diagrama Entidade-Relacionamento
+
+'''mermaid
+erDiagram
+
+    USUARIOS ||--o{ BICICLETAS : possui
+    USUARIOS ||--o{ PEDALADAS : registra
+    BICICLETAS ||--o{ PEDALADAS : utilizada_em
+
+    USUARIOS {
+        int id PK
+        varchar nome
+        varchar email
+        varchar senha
+        datetime created_at
+    }
+
+    BICICLETAS {
+        int id PK
+        int usuario_id FK
+        varchar nome
+        varchar marca
+        varchar modelo
+        varchar tipo
+        datetime created_at
+    }
+
+    PEDALADAS {
+        int id PK
+        int usuario_id FK
+        int bicicleta_id FK
+        date data
+        decimal distancia_km
+        int duracao_minutos
+        decimal velocidade_media
+        text observacoes
+        datetime created_at
+    }'''mermaid
