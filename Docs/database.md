@@ -86,38 +86,34 @@ A estrutura poderá ser ajustada durante o desenvolvimento caso novos requisitos
 
 ```mermaid
 erDiagram
-
     USUARIOS ||--o{ BICICLETAS : possui
     USUARIOS ||--o{ PEDALADAS : registra
-    BICICLETAS ||--o{ PEDALADAS : utilizada_em
+    BICICLETAS ||--o{ PEDALADAS : usada_em
 
     USUARIOS {
-        int id PK
-        varchar nome
-        varchar email
-        varchar senha
-        datetime created_at
+        int id
+        string nome
+        string email
+        string senha
     }
 
     BICICLETAS {
-        int id PK
-        int usuario_id FK
-        varchar nome
-        varchar marca
-        varchar modelo
-        varchar tipo
-        datetime created_at
+        int id
+        int usuario_id
+        string nome
+        string marca
+        string modelo
+        string tipo
     }
 
     PEDALADAS {
-        int id PK
-        int usuario_id FK
-        int bicicleta_id FK
-        date data
-        decimal distancia_km
+        int id
+        int usuario_id
+        int bicicleta_id
+        string data
+        float distancia_km
         int duracao_minutos
-        decimal velocidade_media
-        text observacoes
-        datetime created_at
+        float velocidade_media
+        string observacoes
     }
 ```
