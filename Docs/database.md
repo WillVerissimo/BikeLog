@@ -84,7 +84,7 @@ A estrutura poderá ser ajustada durante o desenvolvimento caso novos requisitos
 
 ## DER — Diagrama Entidade-Relacionamento
 
-'''mermaid
+```mermaid
 erDiagram
 
     USUARIOS ||--o{ BICICLETAS : possui
@@ -119,4 +119,5 @@ erDiagram
         decimal velocidade_media
         text observacoes
         datetime created_at
-    }'''mermaid
+    }
+```
