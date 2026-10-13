@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection
 
@@ -60,7 +60,6 @@ def cadastrar_usuario():
         }
     }), 201
 
-
 @usuarios_bp.route("/login", methods=["POST"])
 def login():
     dados = request.get_json()
@@ -83,15 +82,14 @@ def login():
 
     connection.close()
 
-    if usuario is None:
+    if usuario is None or not check_password_hash(usuario["senha"], senha):
         return jsonify({
             "erro": "Email ou senha inválidos."
         }), 401
 
-    if not check_password_hash(usuario["senha"], senha):
-        return jsonify({
-            "erro": "Email ou senha inválidos."
-        }), 401
+    session.clear()
+    session["usuario_id"] = usuario["id"]
+    session["usuario_nome"] = usuario["nome"]
 
     return jsonify({
         "mensagem": "Login realizado com sucesso!",
@@ -100,4 +98,28 @@ def login():
             "nome": usuario["nome"],
             "email": usuario["email"]
         }
+    }), 200
+
+
+@usuarios_bp.route("/me", methods=["GET"])
+def usuario_logado():
+    usuario_id = session.get("usuario_id")
+
+    if usuario_id is None:
+        return jsonify({
+            "erro": "Usuário não autenticado."
+        }), 401
+
+    return jsonify({
+        "id": usuario_id,
+        "nome": session.get("usuario_nome")
+    }), 200
+
+
+@usuarios_bp.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+
+    return jsonify({
+        "mensagem": "Logout realizado com sucesso!"
     }), 200

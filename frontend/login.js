@@ -10,6 +10,7 @@ form.addEventListener("submit", async function(event) {
     try {
         const resposta = await fetch("http://127.0.0.1:5000/login", {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -21,11 +22,11 @@ form.addEventListener("submit", async function(event) {
 
         const dados = await resposta.json();
 
-        if (resposta.ok) {
-            mensagem.textContent = dados.mensagem;
-        } else {
-            mensagem.textContent = dados.erro;
-        }
+    if (resposta.ok) {
+        window.location.href = "dashboard.html";
+    } else {
+        mensagem.textContent = dados.erro;
+    }
 
     } catch (erro) {
         mensagem.textContent = "Não foi possível conectar ao servidor.";

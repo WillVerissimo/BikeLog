@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BikeLog - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <main class="dashboard">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>🚴 BikeLog</h1>
+                <p>Seu espaço para gerenciar bicicletas e pedaladas.</p>
+            </div>
+
+            <button id="btnLogout" type="button">
+                Sair
+            </button>
+        </header>
+
+        <section class="welcome">
+            <h2 id="boasVindas">Bem-vindo!</h2>
+            <p>Gerencie suas bicicletas em um só lugar.</p>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Minhas bicicletas</h2>
+
+            <div id="listaBicicletas">
+                <p>Carregando bicicletas...</p>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Cadastrar nova bicicleta</h2>
+
+            <form id="formBicicleta">
+
+                <input
+                    type="text"
+                    id="nomeBicicleta"
+                    placeholder="Nome da bicicleta"
+                    required
+                >
+
+                <input
+                    type="text"
+                    id="marca"
+                    placeholder="Marca"
+                >
+
+                <input
+                    type="text"
+                    id="modelo"
+                    placeholder="Modelo"
+                >
+
+                <label for="tipo">Tipo da bicicleta</label>
+                <select id="tipo" aria-label="Tipo da bicicleta">
+                    <option value="">Selecione o tipo</option>
+                    <option value="Speed">Speed</option>
+                    <option value="MTB">Mountain Bike</option>
+                    <option value="Gravel">Gravel</option>
+                    <option value="Urbana">Urbana</option>
+                    <option value="Outra">Outra</option>
+                </select>
+
+                <button type="submit" id="btnCadastrar">
+                    Cadastrar bicicleta
+                </button>
+
+                <button type="button" id="btnCancelarEdicao" hidden>
+                    Cancelar edição
+                </button>
+                
+                <button type="button" id="btnCancelarEdicao" hidden>
+                    Cancelar edição
+                </button>
+            </form>
+
+            <p id="mensagemBicicleta" role="status"></p>
+        </section>
+
+    </main>
+
+    <script src="dashboard.js"></script>
+
+</body>
+</html>
