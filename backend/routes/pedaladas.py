@@ -1,3 +1,4 @@
+from contextlib import closing
 from datetime import date
 from math import isfinite
 from flask import Blueprint, request, jsonify, session
@@ -9,13 +10,16 @@ def validar(dados):
     if not isinstance(dados, dict):
         return None, "Envie um JSON válido."
     try:
+        if isinstance(dados.get("bicicleta_id"), bool) or isinstance(dados.get("duracao_minutos"), bool):
+            raise ValueError()
         bicicleta_id = int(dados.get("bicicleta_id"))
         data = date.fromisoformat(dados.get("data", ""))
         distancia = float(dados.get("distancia_km"))
-        duracao = int(dados.get("duracao_minutos"))
-        if bicicleta_id <= 0 or not isfinite(distancia) or distancia <= 0 or duracao <= 0:
+        duracao_valor = float(dados.get("duracao_minutos"))
+        if not isfinite(duracao_valor) or not duracao_valor.is_integer():
             raise ValueError()
-        if isinstance(dados.get("duracao_minutos"), float) and not dados["duracao_minutos"].is_integer():
+        duracao = int(duracao_valor)
+        if bicicleta_id <= 0 or not isfinite(distancia) or distancia <= 0 or duracao <= 0:
             raise ValueError()
     except (ValueError, TypeError, OverflowError):
         return None, "Informe bicicleta, data (AAAA-MM-DD), distância e duração válidas e positivas."
@@ -35,7 +39,7 @@ def cadastrar_pedalada():
     valores, erro = validar(request.get_json(silent=True))
     if erro:
         return jsonify(erro=erro), 400
-    with get_db_connection() as db:
+    with closing(get_db_connection()) as db, db:
         bicicleta = db.execute("SELECT id FROM bicicletas WHERE id=? AND usuario_id=?", (valores[0], usuario_id)).fetchone()
         if not bicicleta:
             return jsonify(erro="Bicicleta não encontrada."), 404
@@ -49,12 +53,11 @@ def listar_pedaladas():
     usuario_id = autenticado()
     if usuario_id is None:
         return jsonify(erro="Usuário não autenticado."), 401
-    db = get_db_connection()
-    rows = db.execute("""SELECT p.id, p.bicicleta_id, b.nome AS bicicleta_nome, p.data,
+    with closing(get_db_connection()) as db:
+        rows = db.execute("""SELECT p.id, p.bicicleta_id, b.nome AS bicicleta_nome, p.data,
                                 p.distancia_km, p.duracao_minutos, p.velocidade_media, p.observacoes
                          FROM pedaladas p JOIN bicicletas b ON b.id=p.bicicleta_id
                          WHERE p.usuario_id=? ORDER BY p.data DESC, p.id DESC""", (usuario_id,)).fetchall()
-    db.close()
     return jsonify([dict(row) for row in rows]), 200
 
 @pedaladas_bp.route("/pedaladas/<int:pedalada_id>", methods=["PUT"])
@@ -65,7 +68,7 @@ def editar_pedalada(pedalada_id):
     valores, erro = validar(request.get_json(silent=True))
     if erro:
         return jsonify(erro=erro), 400
-    with get_db_connection() as db:
+    with closing(get_db_connection()) as db, db:
         existente = db.execute("SELECT id FROM pedaladas WHERE id=? AND usuario_id=?", (pedalada_id, usuario_id)).fetchone()
         if not existente:
             return jsonify(erro="Pedalada não encontrada."), 404
@@ -81,7 +84,7 @@ def excluir_pedalada(pedalada_id):
     usuario_id = autenticado()
     if usuario_id is None:
         return jsonify(erro="Usuário não autenticado."), 401
-    with get_db_connection() as db:
+    with closing(get_db_connection()) as db, db:
         cursor = db.execute("DELETE FROM pedaladas WHERE id=? AND usuario_id=?", (pedalada_id, usuario_id))
         if cursor.rowcount == 0:
             return jsonify(erro="Pedalada não encontrada."), 404
