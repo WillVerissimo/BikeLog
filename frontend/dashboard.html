@@ -72,22 +72,39 @@
                 <button type="submit" id="btnCadastrar">
                     Cadastrar bicicleta
                 </button>
-
-                <button type="button" id="btnCancelarEdicao" hidden>
-                    Cancelar edição
-                </button>
-                
-                <button type="button" id="btnCancelarEdicao" hidden>
-                    Cancelar edição
-                </button>
+                <button type="button" id="btnCancelarEdicao" hidden>Cancelar edição</button>
             </form>
 
             <p id="mensagemBicicleta" role="status"></p>
         </section>
 
+        <section class="dashboard-section">
+            <h2>Minhas pedaladas</h2>
+            <div id="estatisticasPedais" class="estatisticas"></div>
+            <div id="listaPedaladas"><p>Carregando pedaladas...</p></div>
+        </section>
+        <section class="dashboard-section">
+            <h2>Registrar pedalada</h2>
+            <form id="formPedalada">
+                <label for="pedalBicicleta">Bicicleta</label>
+                <select id="pedalBicicleta" required></select>
+                <label for="pedalData">Data</label>
+                <input id="pedalData" type="date" required>
+                <label for="pedalDistancia">Distância (km)</label>
+                <input id="pedalDistancia" type="number" min="0.01" step="0.01" required>
+                <label for="pedalDuracao">Duração (minutos)</label>
+                <input id="pedalDuracao" type="number" min="1" step="1" required>
+                <label for="pedalObservacoes">Observações</label>
+                <input id="pedalObservacoes" type="text" maxlength="1000">
+                <button id="salvarPedalada" type="submit">Registrar pedalada</button>
+                <button id="cancelarPedalada" type="button" hidden>Cancelar edição</button>
+            </form>
+            <p id="mensagemPedalada" role="status"></p>
+        </section>
     </main>
 
     <script src="dashboard.js"></script>
+    <script src="pedaladas.js"></script>
 
 </body>
 </html>
