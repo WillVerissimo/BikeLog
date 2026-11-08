@@ -1,34 +1,37 @@
 # 🚴 BikeLog
 
-Sistema para gerenciamento e acompanhamento de pedaladas.
+Sistema web acadêmico para gerenciar bicicletas e registrar pedaladas.
 
-## 📌 Sobre o projeto
+## Tecnologias
+Python 3, Flask, SQLite, HTML, CSS e JavaScript.
 
-O BikeLog é um sistema desenvolvido para permitir que ciclistas registrem, acompanhem e consultem informações relacionadas às suas pedaladas.
+## Funcionalidades
+- Cadastro de usuário, login e logout por sessão.
+- CRUD de bicicletas do usuário autenticado.
+- CRUD de pedaladas, com validação e isolamento por usuário.
+- Velocidade média calculada no servidor.
+- Histórico e indicadores de distância, duração e velocidade média geral.
 
-## 🎯 Objetivo
+## Executar localmente
+1. Clone o repositório e crie um ambiente virtual Python.
+2. Instale as dependências com `pip install -r requirements.txt`.
+3. Certifique-se de que o banco SQLite está criado em `backend/database/bikelog.db`, conforme os scripts de inicialização do projeto.
+4. Entre na pasta `backend` e execute `python app.py`.
+5. Sirva a pasta `frontend` em `http://127.0.0.1:5500` (por exemplo, com Live Server no VS Code).
+6. Acesse `login.html`, faça login e entre no dashboard.
 
-Centralizar informações dos pedais em um único sistema, permitindo acompanhar dados como:
+**Atenção:** a API usa `http://127.0.0.1:5000` e o frontend espera a origem `http://127.0.0.1:5500`. Ajuste as configurações caso use outras portas. O modo debug é apenas para desenvolvimento.
 
-* distância percorrida;
-* duração do pedal;
-* velocidade média;
-* histórico de atividades;
-* estatísticas de desempenho.
+## Verificação da AC3
+- [ ] Login e logout
+- [ ] Cadastro e listagem de bicicletas
+- [ ] Cadastro de pedalada
+- [ ] Edição de pedalada
+- [ ] Exclusão de pedalada
+- [ ] Estatísticas após cadastrar, editar e excluir
+- [ ] Bloqueio de acesso sem login
+- [ ] Isolamento dos registros entre usuários
+- [ ] Responsividade e demonstração em vídeo
 
-## 🛠️ Tecnologias
-
-As tecnologias serão definidas durante o desenvolvimento do projeto.
-
-## 📂 Estrutura
-
-```text
-backend/   → servidor e regras de negócio
-frontend/  → interface do usuário
-database/  → scripts e estrutura do banco
-docs/      → documentação do projeto
-```
-
-## 👨‍💻 Projeto acadêmico
-
-Projeto desenvolvido para a disciplina de Projeto de Software.
+## Projeto acadêmico
+Disciplina de Projeto de Software. As implementações da AC3 estão na branch `ac3-pedaladas` até a revisão final.
